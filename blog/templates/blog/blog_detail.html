@@ -1,0 +1,66 @@
+{% load widget_tweaks %}
+
+{{ blog.name }}
+{{ blog.title }}
+{{ blog.description }}
+
+<h2> Comments </h2>
+
+
+<form action="" method="POST" id="main_form" class="comment_form">
+    {% csrf_token %}
+    <div>
+        <label for="comment">Type Comment here</label>
+        {{ comment_form.as_p }}
+        <input type="submit" value="Post">
+    </div>
+</form>
+
+{% for comment in comments %}
+    {% if comment.is_parent %}
+        <h3><b>{{ comment.name }} 1111111 : </b> {{ comment.body }}</h3>
+        &nbsp; &nbsp; &nbsp;
+        <form action="" method="POST" id="main_form" class="comment_form">
+            {% csrf_token %}
+            <div>
+
+                &nbsp; &nbsp; &nbsp;<label for="{{ comment_form.name.id_for_label }}">Name:</label>
+                &nbsp; &nbsp; &nbsp;{% render_field comment_form.name %}
+
+                &nbsp; &nbsp; &nbsp;<label for="{{ comment_form.body.id_for_label }}">Reply:</label>
+                &nbsp; &nbsp; &nbsp;{% render_field comment_form.body %}
+
+                &nbsp; &nbsp; &nbsp;<input type="hidden" value="{{ comment.pk }}" name="parent">
+                &nbsp; &nbsp; &nbsp;<input type="submit" value="Post">
+            </div>
+        </form>
+    {% endif %}
+
+    {% for reply in comment.children %}
+        <h3>&nbsp; &nbsp; &nbsp; <b>{{ reply.name }} 222222 : </b> {{ reply.body }}</h3>
+    {% endfor %}
+    -------------------------------------------------------------------------------
+{% endfor %}
+
+
+
+
+{#<h2> Comments </h2>#}
+{##}
+{#<form action="" method="POST" id="main_form" class="comment_form">#}
+{#    {% csrf_token %}#}
+{#    <div>#}
+{#        <label for="comment">Type Comment here</label>#}
+{#        {{ comment_form.body }}#}
+{#        <input type="submit" value="Post">#}
+{#    </div>#}
+{#</form>#}
+{##}
+{#{% for comment in comments %}#}
+{#     {% if comment.is_parent %}#}
+{#         <h3> <b>{{ comment.name }} : </b> {{ comment.body }}</h3>#}
+{#     {% endif %}#}
+{#     {% for replies in comment.children %}#}
+{#         <h3>&nbsp; &nbsp; &nbsp; <b>{{ comment.name }} : </b> {{ replies.body }}</h3>#}
+{#     {% endfor %}#}
+{#{% endfor %}#}

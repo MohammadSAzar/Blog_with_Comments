@@ -1,0 +1,7 @@
+{% for blog in blogs %}
+    {{ blog.title }}
+    {{ blog.description }}
+    <a href="{{ blog.get_absolute_url }}">مطالعه بیشتر</a>
+    ----------------------------------------------------
+{% endfor %}
+
