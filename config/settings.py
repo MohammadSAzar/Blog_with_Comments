@@ -40,7 +40,6 @@ INSTALLED_APPS = [
 
     'widget_tweaks',
 
-    'blog',
     'nblog',
 ]
 
