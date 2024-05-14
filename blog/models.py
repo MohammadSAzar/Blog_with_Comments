@@ -28,7 +28,7 @@ class Comment(models.Model):
         ordering = ['-published_date_time']
 
     def __str__(self):
-        return str(self.name) + ' comment ' + str(self.body)
+        return str(self.name) + ':' + str(self.body)
 
     @property
     def children(self):
@@ -40,8 +40,4 @@ class Comment(models.Model):
             return True
         return False
 
-    # @property
-    # def is_second_parent(self):
-    #     if self.parent is None:
-    #         return True
-    #     return False
+

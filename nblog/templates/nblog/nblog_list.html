@@ -1,0 +1,7 @@
+{% for nblog in nblogs %}
+    {{ nblog.title }}
+    {{ nblog.description }}
+    <a href="{{ nblog.get_absolute_url }}">مطالعه بیشتر</a>
+    ----------------------------------------------------
+{% endfor %}
+

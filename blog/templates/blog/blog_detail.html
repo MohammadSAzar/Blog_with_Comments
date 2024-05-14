@@ -19,7 +19,6 @@
 {% for comment in comments %}
     {% if comment.is_parent %}
         <h3><b>{{ comment.name }} 1111111 : </b> {{ comment.body }}</h3>
-        &nbsp; &nbsp; &nbsp;
         <form action="" method="POST" id="main_form" class="comment_form">
             {% csrf_token %}
             <div>
