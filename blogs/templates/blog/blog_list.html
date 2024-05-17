@@ -1,0 +1,100 @@
+
+
+    <!-- Blog category choices -->
+    <div class="ptb--80" style="background-color: #dbf3f2;">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h1 class="page-title" style="color: rgb(0, 51, 121)">بلاگ هومبیا، مجله جامع مسکن</h1>
+                    <ul class="breadcrumb" style="margin-top: 4em;">
+                        <li style="margin-right: 0;!important;"><a href="{% url 'category_homebia' %}" style="color: rgb(0, 51, 121); margin-right: 20px; margin-left: 20px;">هومبیا</a></li>
+                        <li style="margin-right: 0;!important;"><a href="{% url 'category_news' %}" style="color: rgb(0, 51, 121); margin-right: 20px; margin-left: 20px;">اخبار</a></li>
+                        <li style="margin-right: 0;!important;"><a href="{% url 'category_analytical' %}" style="color: rgb(0, 51, 121); margin-right: 20px; margin-left: 20px;">تحلیلی</a></li>
+                        <li style="margin-right: 0;!important;"><a href="{% url 'category_educational' %}" style="color: rgb(0, 51, 121); margin-right: 20px; margin-left: 20px;">آموزشی</a></li>
+                        <li style="margin-right: 0;!important;"><a href="{% url 'blog_list' %}" style="color: rgb(0, 51, 121); margin-right: 20px; margin-left: 20px; border-bottom: solid 1px rgb(0, 51, 121);">همه</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end: Blog category choices -->
+
+    <!-- Blog main -->
+    <main class="main-content-wrapper">
+        <div class="inner-page-content ptb--80 ptb-md--60">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+
+                        <!-- Blog >>> posts -->
+                        <div class="row" style="margin-bottom: 4em;">
+                            {% for blog in blogs %}
+                                <div class="col-xl-4 col-lg-6 mb--50">
+                                    <article class="blog format-standard" style="margin-bottom: 5em;">
+                                        <div class="blog__inner">
+                                            <div class="blog__media">
+                                                <figure class="image">
+                                                    <img src="{{ blog.cover.url }}" alt="Blog Image" class="w-100">
+                                                    <a href="{{ blog.get_absolute_url }}" class="item-overlay"></a>
+                                                </figure>
+                                            </div>
+                                            <div class="blog__info">
+                                                <h2 class="blog__title" style="font-weight: bold;"><a href="{{ blog.get_absolute_url }}">{{ blog.title|farsi_number }}</a></h2>
+                                                <div class="blog__meta">
+                                                    <span class="posted-on">تاریخ انتشار: {{ blog.date_creation|to_jalali }}</span>
+                                                </div>
+                                                <div class="blog__meta">
+                                                    <span class="posted-on">دسته‌بندی: {{ blog.blog_category }}</span>
+                                                </div>
+                                                <a href="{{ blog.get_absolute_url }}" class="btn btn-outline btn-brw-2" data-animation="fadeInUp" data-duration=".3s" data-delay=".6s" style="line-height: 0.6em; font-weight: normal; float: left">مطالعه بیشتر</a>
+                                            </div>
+                                        </div>
+                                    </article>
+                                </div>
+                            {% endfor %}
+
+                        </div>
+                        <!-- end: Blog >>> posts -->
+
+                        <!-- Pagination -->
+                        <div class="my-pagination">
+                            {% if page_obj.has_previous %}
+                                <a href="?page=1">&laquo; ابتدا</a>
+                            {% else %}
+                                <span class="my-disabled">&laquo; ابتدا</span>
+                            {% endif %}
+
+                            {% if page_obj.has_previous %}
+                                <a href="?page={{ page_obj.previous_page_number }}">‹ قبل</a>
+                            {% else %}
+                                <span class="my-disabled">‹ قبل</span>
+                            {% endif %}
+
+                            {% for num in page_obj.paginator.page_range %}
+                                {% if num == page_obj.number %}
+                                    <span class="my-current">{{ num }}</span>
+                                {% else %}
+                                    <a href="?page={{ num }}">{{ num }}</a>
+                                {% endif %}
+                            {% endfor %}
+
+                            {% if page_obj.has_next %}
+                                <a href="?page={{ page_obj.next_page_number }}">بعد ›</a>
+                            {% else %}
+                                <span class="my-disabled">بعد ›</span>
+                            {% endif %}
+
+                            {% if page_obj.has_next %}
+                                <a href="?page={{ page_obj.paginator.num_pages }}">انتها &raquo;</a>
+                            {% else %}
+                                <span class="my-disabled">انتها &raquo;</span>
+                            {% endif %}
+                        </div>
+                        <!-- end: Pagination -->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- end: Blog main -->

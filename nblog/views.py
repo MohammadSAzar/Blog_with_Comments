@@ -20,10 +20,10 @@ class NBlogDetailView(DetailView):
         data = super().get_context_data(**kwargs)
         comments = NComment.objects.filter(post=self.get_object())
         replies = NReply.objects.filter(post=self.get_object())
-        number_of_comments_and_replies = comments.count() + replies.count()
+        # number_of_comments_and_replies = comments.count() + replies.count()
         data['comments'] = comments
         data['replies'] = replies
-        data['number_of_comments_and_replies'] = number_of_comments_and_replies
+        # data['number_of_comments_and_replies'] = number_of_comments_and_replies
         data['comment_form'] = NCommentForm()
         data['reply_form'] = NReplyForm()
         return data
