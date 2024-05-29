@@ -22,6 +22,10 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('blogs.urls')),
-    path('', include('nblog.urls')),
-]
+    path('', include('rs.urls')),
+    # path('', include('blogs.urls')),
+    # path('', include('nblog.urls')),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+

@@ -1,0 +1,51 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Real Estate File</title>
+    <script src="{% static 'js/jquery-3.7.1.min.js' %}"></script>
+</head>
+<body>
+    <form method="post" action="{% url 'real_estate_create' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save</button>
+    </form>
+
+    <script>
+        $("#id_province").change(function () {
+            var url = "{% url 'ajax_load_cities' %}"; // Get the url of the `load_cities` view
+            var provinceId = $(this).val(); // Get the selected province ID from the HTML input
+
+            $.ajax({
+                url: url,
+                data: {
+                    'province': provinceId
+                },
+                success: function (data) {
+                    $("#id_city").html(data);
+                    $("#id_district").html('<option value="">---------</option>');
+                }
+            });
+        });
+
+        $("#id_city").change(function () {
+            var url = "{% url 'ajax_load_districts' %}";
+            var cityId = $(this).val();
+
+            $.ajax({
+                url: url,
+                data: {
+                    'city': cityId
+                },
+                success: function (data) {
+                    $("#id_district").html(data);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
