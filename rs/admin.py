@@ -6,7 +6,6 @@ from .models import RealEstate, Province, City, District
 class RealEstateAdmin(admin.ModelAdmin):
 	list_display = ('province', 'city', 'district', 'price', 'room', 'area', 'year', 'floor', 'parking', 'elevator', 'warehouse', 'document', 'description', 'status', 'datetime_created')
 	ordering = ('-datetime_created',)
-# prepopulated_fields = {'slug': ('title',)}
 
 @admin.register(Province)
 class ProvinceAdmin(admin.ModelAdmin):

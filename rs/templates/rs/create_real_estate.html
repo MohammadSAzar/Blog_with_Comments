@@ -6,46 +6,63 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Real Estate File</title>
+
     <script src="{% static 'js/jquery-3.7.1.min.js' %}"></script>
 </head>
 <body>
-    <form method="post" action="{% url 'real_estate_create' %}">
+
+    <!-- create_file.html -->
+    <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Save</button>
+        <input type="submit" value="Submit">
     </form>
 
     <script>
-        $("#id_province").change(function () {
-            var url = "{% url 'ajax_load_cities' %}"; // Get the url of the `load_cities` view
-            var provinceId = $(this).val(); // Get the selected province ID from the HTML input
+    $(document).ready(function() {
+        $('#district').hide(); // Hide district field initially
 
+        $('#province').change(function() {
+            var provinceId = $(this).val();
             $.ajax({
-                url: url,
+                url: '/load_cities/',
                 data: {
                     'province': provinceId
                 },
-                success: function (data) {
-                    $("#id_city").html(data);
-                    $("#id_district").html('<option value="">---------</option>');
+                success: function(data) {
+                    $('#city').html('');
+                    $('#district').hide(); // Hide district field when changing province
+                    $.each(data.cities, function(index, city) {
+                        $('#city').append(`<option value="${city[0]}">${city[1]}</option>`);
+                    });
+                    $('#city').trigger('change'); // Trigger change event on city select
                 }
             });
         });
 
-        $("#id_city").change(function () {
-            var url = "{% url 'ajax_load_districts' %}";
+        $('#city').change(function() {
             var cityId = $(this).val();
-
             $.ajax({
-                url: url,
+                url: '/load_districts/',
                 data: {
                     'city': cityId
                 },
-                success: function (data) {
-                    $("#id_district").html(data);
+                success: function(data) {
+                    $('#district').html('');
+                    if (data.districts.length > 0) {
+                        $('#district').show(); // Show district field only if there are districts
+                        $.each(data.districts, function(index, district) {
+                            $('#district').append(`<option value="${district[0]}">${district[1]}</option>`);
+                        });
+                    } else {
+                        $('#district').hide(); // Hide district field if there are no districts
+                    }
                 }
             });
         });
+    });
     </script>
+
+
 </body>
 </html>
